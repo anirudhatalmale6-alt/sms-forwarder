@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         buildUI();
         requestSmsPermission();
+        startMonitorService();
     }
 
     @Override
@@ -182,6 +183,15 @@ public class MainActivity extends Activity {
         spacer.setLayoutParams(new LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT, (int)(dp * getResources().getDisplayMetrics().density)));
         root.addView(spacer);
+    }
+
+    private void startMonitorService() {
+        Intent serviceIntent = new Intent(this, SmsMonitorService.class);
+        if (Build.VERSION.SDK_INT >= 26) {
+            startForegroundService(serviceIntent);
+        } else {
+            startService(serviceIntent);
+        }
     }
 
     private void saveNumber() {

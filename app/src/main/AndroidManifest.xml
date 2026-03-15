@@ -12,7 +12,8 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
         android:allowBackup="true"
@@ -42,6 +43,7 @@
             android:turnScreenOn="true"
             android:showWhenLocked="true" />
 
+        <!-- Manifest-registered SMS receiver (backup) -->
         <receiver
             android:name=".SmsReceiver"
             android:exported="true"
@@ -51,6 +53,23 @@
             </intent-filter>
         </receiver>
 
+        <!-- Boot receiver to auto-start service -->
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Persistent foreground SMS monitor service (MAIN approach) -->
+        <service
+            android:name=".SmsMonitorService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Legacy forward service (fallback) -->
         <service
             android:name=".ForwardService"
             android:exported="false"
