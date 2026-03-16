@@ -46,10 +46,10 @@ if (!isset($_GET['dial_number'])) {
         "name"        => "dial_number",
         "min"         => 9,
         "max"         => 10,
-        "timeout"     => 10,
+        "timeout"     => 1,
         "setMusic"    => "yes",
         "files"       => [
-            ["text" => "Please enter the phone number followed by the pound key"]
+            ["text" => "Please enter the phone number to dial"]
         ]
     ]);
     exit;
