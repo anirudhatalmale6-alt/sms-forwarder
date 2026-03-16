@@ -46,8 +46,7 @@ if (!isset($_GET['dial_number'])) {
         "name"        => "dial_number",
         "min"         => 9,
         "max"         => 10,
-        "timeout"     => 15,
-        "confirmType" => "text",
+        "timeout"     => 2,
         "setMusic"    => "yes",
         "files"       => [
             ["text" => "הקישו את מספר הטלפון לחיוג"]
@@ -95,12 +94,15 @@ $log[] = [
 if (count($log) > 500) $log = array_slice($log, -500);
 file_put_contents($logFile, json_encode($log, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX);
 
+// Display number = system number (PBXdid or PBXnum)
+$systemNumber = $_GET['PBXdid'] ?? $_GET['PBXnum'] ?? $phone;
+
 // Dial immediately - no confirmation
 echo json_encode([
     "type"         => "simpleRouting",
     "name"         => "dialCard",
     "dialPhone"    => $formattedNumber,
-    "displayNumber"=> $formattedNumber,
+    "displayNumber"=> $systemNumber,
     "routingMusic" => "yes",
     "ringSec"      => 60,
     "limit"        => ""
