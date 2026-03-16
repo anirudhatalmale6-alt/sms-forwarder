@@ -46,10 +46,10 @@ if (!isset($_GET['dial_number'])) {
         "name"        => "dial_number",
         "min"         => 9,
         "max"         => 10,
-        "timeout"     => 2,
+        "timeout"     => 10,
         "setMusic"    => "yes",
         "files"       => [
-            ["text" => "הקישו את מספר הטלפון לחיוג"]
+            ["text" => "Please enter the phone number followed by the pound key"]
         ]
     ]);
     exit;
@@ -69,7 +69,7 @@ if (strlen($dialNumber) < 9 || strlen($dialNumber) > 10) {
             "timeout" => 1,
             "enabledKeys" => "",
             "files" => [
-                ["text" => "מספר לא תקין. נסו שנית"]
+                ["text" => "Invalid number. Please try again"]
             ]
         ],
         ["type" => "goTo", "goTo" => ""]
